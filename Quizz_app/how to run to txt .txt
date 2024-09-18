@@ -1,5 +1,7 @@
-1)install nodemodule in backend folder and my-react-app folder.
+1) navigate to backend by cd Quizz_app\backend 
 2) run Backend by npm start
+
+then navigate to frontend by cd Quizz_app\my-react-app
 3) Run frontend by npm run dev  
 4) choose and fill answers 
-5) the answers are shown on console of backend 
+5) the answers are shown on console of backend and in  "answer.txt" file 
