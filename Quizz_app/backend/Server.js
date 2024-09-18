@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = 5000;
-
+const path = require("path");
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -178,12 +178,15 @@ app.get('/quiz-questions', (req, res) => {
   res.json(questions);
 });
 
-
+app.get("/", (req,res)=>{
+  app.use(express.static(path.resolve(__dirname, "my-react-app", "build")));
+  res.sendFile(path.resolve(__dirname,"my-react-app","dist","index.html"));
+});
 
 
 //---------------------------/
 const fs = require('fs');
-const path = require('path');
+//const path = require('path');
 
 // Endpoint to accept answers from the frontend
 app.post('/submit-answers', (req, res) => {
