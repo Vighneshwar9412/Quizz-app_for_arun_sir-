@@ -1,0 +1,5 @@
+1)install nodemodule in backend folder and my-react-app folder.
+2) run Backend by npm start
+3) Run frontend by npm run dev  
+4) choose and fill answers 
+5) the answers are shown on console of backend 
