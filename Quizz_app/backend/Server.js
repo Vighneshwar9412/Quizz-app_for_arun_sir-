@@ -12,7 +12,6 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB connection URI
-//const uri = 'mongodb+srv://asdfggjkl736:Mishra@123@cluster0.9ylv2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 const uri = 'mongodb+srv://asdfggjkl736:Mishra%40123@cluster0.9ylv2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 // Create a MongoDB client
@@ -36,10 +35,14 @@ async function run() {
       const questions = await questionsCollection.find({}).toArray();
       
       const chapters = [];
-      for (let i = 0; i < 7; i++) {
-        chapters.push(questions.filter(q => q.chapter === i)); 
+      let randomNum = Math.floor(Math.random()*20);
+      console.log(randomNum)
+      for(let i=0 ;i<5 ;i++){
+        chapters.push(questions[randomNum+i]);
       }
-      res.json(chapters);
+      //console.log(questions)
+      //console.log(chapters)
+      res.json(chapters); 
     } catch (error) {
       console.error('Error fetching questions:', error);
       res.status(500).json({ message: 'Error fetching questions' });
