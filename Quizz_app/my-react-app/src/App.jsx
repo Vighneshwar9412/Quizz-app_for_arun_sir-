@@ -1,5 +1,3 @@
-// QuizPage.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -10,14 +8,14 @@ const QuizPage = () => {
   const [chapter, setChapter] = useState(0);
 
   useEffect(() => {
-    // Generate a random number between 0 and 6
-    var randomNumber = Math.floor(Math.random() * 7);
+    const randomNumber = Math.floor(Math.random() * 7);
     setChapter(randomNumber);
 
-    // Fetch questions from the backend API
+    // Fetch questions for the selected chapter
     axios.get('http://localhost:5000/quiz-questions')
       .then(response => {
-        setQuestions(response.data[randomNumber]);
+        console.log(response.data)
+        setQuestions(response.data || []); 
       })
       .catch(error => {
         console.error('Error fetching questions:', error);
@@ -34,7 +32,14 @@ const QuizPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    axios.post('http://localhost:5000/submit-answers', answers)
+    // Format answers for submission
+    const formattedAnswers = Object.entries(answers).map(([questionId, answer]) => ({
+      user_id: 'student123', // Replace with actual user ID if available
+      question_id: questionId,
+      answer,
+    }));
+
+    axios.post('http://localhost:5000/submit-answers', formattedAnswers)
       .then(response => {
         console.log('Server response:', response.data);
         setSubmitted(true);
@@ -94,7 +99,7 @@ const QuizPage = () => {
         <button type="submit">Submit</button>
       </form>
 
-      {submitted && <p>Your answers have been submitted! We will update you about the score you got.</p>}
+      {submitted && <p>Your answers have been submitted! We will update you about your score.</p>}
     </div>
   );
 };
