@@ -81,7 +81,8 @@ async function run() {
       const Score = async function score(user_Responses){
        try{
         const answers  = await ansersCollection.find({}).toArray();
-        console.log(answers)
+
+        //console.log(answers)
 
        
         const questionId = [] ;
@@ -90,7 +91,7 @@ async function run() {
 
         user_Responses.map((item)=>(questionId.push(item.question_id)));
         
-        console.log(questionId)  //
+        //console.log(questionId)  //
 
         questionId.forEach((itema)=>{correctAnswer.push(answers.find(item => item.question_id === itema));})
        
