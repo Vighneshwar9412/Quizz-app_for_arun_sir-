@@ -6,16 +6,14 @@ const QuizPage = () => {
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [chapter, setChapter] = useState(0);
+  const [correctAnswer, setCorrectAnswer] = useState([]);
 
   useEffect(() => {
-    const randomNumber = Math.floor(Math.random() * 7);
-    setChapter(randomNumber);
-
     // Fetch questions for the selected chapter
     axios.get('http://localhost:5000/quiz-questions')
       .then(response => {
-        console.log(response.data)
-        setQuestions(response.data || []); // Handle if the chapter has no questions
+        console.log(response.data);
+        setQuestions(response.data || []); 
       })
       .catch(error => {
         console.error('Error fetching questions:', error);
@@ -34,7 +32,7 @@ const QuizPage = () => {
     
     // Format answers for submission
     const formattedAnswers = Object.entries(answers).map(([questionId, answer]) => ({
-      user_id: 'student123', // Replace with actual user ID if available
+      user_id: 'student123', // Example user ID
       question_id: questionId,
       answer,
     }));
@@ -42,6 +40,7 @@ const QuizPage = () => {
     axios.post('http://localhost:5000/submit-answers', formattedAnswers)
       .then(response => {
         console.log('Server response:', response.data);
+        setCorrectAnswer(response.data.correctAnswer);
         setSubmitted(true);
       })
       .catch(error => {
@@ -99,7 +98,17 @@ const QuizPage = () => {
         <button type="submit">Submit</button>
       </form>
 
-      {submitted && <p>Your answers have been submitted! We will update you about your score.</p>}
+      {submitted && (
+        <div>
+          <p>Your answers have been submitted! We will update you about your score.</p>
+          <h3>The correct answers are:</h3>
+          <ul>
+            {correctAnswer.map((item, index) => (
+              <li key={index}>{item.corrAnswer}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
